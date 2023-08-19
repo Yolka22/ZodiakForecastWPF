@@ -40,6 +40,7 @@
                 x:Name="Forecast_label"
                 Width="auto"/>
             </StackPanel>
+            <Image x:Name="zodiak_sign"></Image>
         </StackPanel>
     </Grid>
 </Window>

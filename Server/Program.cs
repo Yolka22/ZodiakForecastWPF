@@ -29,18 +29,18 @@ namespace Server
 
             Dictionary<string, Zodiak> zodiacForecastMap = new Dictionary<string, Zodiak>
         {
-            { "aries", new Zodiak("Good fortune ahead","image") },
-            { "taurus", new Zodiak("Luck is on your side","image") },
-            { "gemini", new Zodiak("Stay cautious today","image") },
-            { "cancer", new Zodiak("Positive vibes coming your way", "image") },
-            { "leo", new Zodiak("An exciting opportunity awaits", "image") },
-            { "virgo", new Zodiak("Things might get challenging", "image") },
-            { "libra", new Zodiak("Balance will be key today", "image") },
-            { "scorpio", new Zodiak("Trust your instincts", "image") },
-            { "sagittarius", new Zodiak("Adventure is calling", "image") },
-            { "capricorn", new Zodiak("Hard work will pay off", "image") },
-            { "aquarius", new Zodiak("Unexpected changes ahead", "image") },
-            { "pisces", new Zodiak("Creativity will flourish", "image") }
+            { "aries", new Zodiak("Good fortune ahead","aries.png") },
+            { "taurus", new Zodiak("Luck is on your side","taurus.png") },
+            { "gemini", new Zodiak("Stay cautious today","gemini.png") },
+            { "cancer", new Zodiak("Positive vibes coming your way", "cancer.png") },
+            { "leo", new Zodiak("An exciting opportunity awaits", "leo.png") },
+            { "virgo", new Zodiak("Things might get challenging", "virgo.png") },
+            { "libra", new Zodiak("Balance will be key today", "libra.png") },
+            { "scorpio", new Zodiak("Trust your instincts", "scorpio.png") },
+            { "sagittarius", new Zodiak("Adventure is calling", "sagittarius.png") },
+            { "capricorn", new Zodiak("Hard work will pay off", "capricorn.png") },
+            { "aquarius", new Zodiak("Unexpected changes ahead", "aquarius.png") },
+            { "pisces", new Zodiak("Creativity will flourish", "pisces.png") }
         };
 
             int port = 9001;

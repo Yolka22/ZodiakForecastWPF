@@ -12,6 +12,6 @@ namespace ZodiakNameSpace
 
         }
         public string forecast;
-        public string image;
+        public Bitmap image;
     }
 }

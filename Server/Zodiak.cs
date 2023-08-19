@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 namespace ZodiakNameSpace
 {
     public class Zodiak
     {
-        public Zodiak(string forecast, string image)
+        public string forecast;
+        public Bitmap image = null;
+        public Zodiak(string forecast, string imagePath)
         {
 
             this.forecast = forecast;
-            this.image = image;
+            image = new Bitmap(imagePath);
 
         }
-        public string forecast;
-        public string image;
+
     }
 }
