@@ -16,28 +16,31 @@ using System.Net;
 using System.Net.Sockets;
 using static System.Console;
 using System.Runtime.Remoting.Messaging;
-
+using Newtonsoft.Json;
+using ZodiakNameSpace;
+using System.Drawing;
 namespace Server
 {
+
     internal class Program
     {
         static void Main(string[] args)
         {
 
-            Dictionary<string, string> zodiacForecastMap = new Dictionary<string, string>
+            Dictionary<string, Zodiak> zodiacForecastMap = new Dictionary<string, Zodiak>
         {
-            { "aries", "Good fortune ahead" },
-            { "taurus", "Luck is on your side" },
-            { "gemini", "Stay cautious today" },
-            { "cancer", "Positive vibes coming your way" },
-            { "leo", "An exciting opportunity awaits" },
-            { "virgo", "Things might get challenging" },
-            { "libra", "Balance will be key today" },
-            { "scorpio", "Trust your instincts" },
-            { "sagittarius", "Adventure is calling" },
-            { "capricorn", "Hard work will pay off" },
-            { "aquarius", "Unexpected changes ahead" },
-            { "pisces", "Creativity will flourish" }
+            { "aries", new Zodiak("Good fortune ahead","image") },
+            { "taurus", new Zodiak("Luck is on your side","image") },
+            { "gemini", new Zodiak("Stay cautious today","image") },
+            { "cancer", new Zodiak("Positive vibes coming your way", "image") },
+            { "leo", new Zodiak("An exciting opportunity awaits", "image") },
+            { "virgo", new Zodiak("Things might get challenging", "image") },
+            { "libra", new Zodiak("Balance will be key today", "image") },
+            { "scorpio", new Zodiak("Trust your instincts", "image") },
+            { "sagittarius", new Zodiak("Adventure is calling", "image") },
+            { "capricorn", new Zodiak("Hard work will pay off", "image") },
+            { "aquarius", new Zodiak("Unexpected changes ahead", "image") },
+            { "pisces", new Zodiak("Creativity will flourish", "image") }
         };
 
             int port = 9001;
@@ -63,38 +66,15 @@ namespace Server
 
                     byte[] message_buffer = new byte[4096];
                     int message_bytes_count = acceptor.Receive(message_buffer);
+                    string userMessage = Encoding.UTF8.GetString(message_buffer, 0, message_bytes_count);
 
-                    if (message_bytes_count > 0)
-                    {
-                        string user_message = Encoding.UTF8.GetString(message_buffer, 0, message_bytes_count);
-                    WriteLine($"{user_message} {DateTime.Now}");
-
-                    string response = "default";
-                        user_message = user_message.ToLower();
-                    if (zodiacForecastMap.ContainsKey(user_message))
-                    {
-                        response = zodiacForecastMap[user_message];
-                    }
-                    else
-                    {
-                        response = "Sign not found :(";
-                    }
+                    string jsonString = JsonConvert.SerializeObject(zodiacForecastMap[userMessage]);
+                    WriteLine(jsonString);
 
 
-                    byte[] response_buffer = Encoding.UTF8.GetBytes(response);
-                    acceptor.Send(response_buffer);
+                    acceptor.Send(Encoding.UTF8.GetBytes(jsonString));
 
 
-                    acceptor.Shutdown(SocketShutdown.Both);
-                    acceptor.Close();
-
-
-                    if (user_message == "server/stop")
-                    {
-                        break;
-                    }
-                    }
-                    
                 }
             }
             catch (Exception ex)
