@@ -27,20 +27,20 @@ namespace Server
         static void Main(string[] args)
         {
 
-            Dictionary<string, Zodiak> zodiacForecastMap = new Dictionary<string, Zodiak>
+            List<Zodiak> zodiacForecastMap = new List<Zodiak>
         {
-            { "aries", new Zodiak("Good fortune ahead","aries.png") },
-            { "taurus", new Zodiak("Luck is on your side","taurus.png") },
-            { "gemini", new Zodiak("Stay cautious today","gemini.png") },
-            { "cancer", new Zodiak("Positive vibes coming your way", "cancer.png") },
-            { "leo", new Zodiak("An exciting opportunity awaits", "leo.png") },
-            { "virgo", new Zodiak("Things might get challenging", "virgo.png") },
-            { "libra", new Zodiak("Balance will be key today", "libra.png") },
-            { "scorpio", new Zodiak("Trust your instincts", "scorpio.png") },
-            { "sagittarius", new Zodiak("Adventure is calling", "sagittarius.png") },
-            { "capricorn", new Zodiak("Hard work will pay off", "capricorn.png") },
-            { "aquarius", new Zodiak("Unexpected changes ahead", "aquarius.png") },
-            { "pisces", new Zodiak("Creativity will flourish", "pisces.png") }
+            {  new Zodiak("aries","Good fortune ahead") },
+            {  new Zodiak("taurus","Luck is on your side") },
+            {  new Zodiak("gemini","Stay cautious today") },
+            {  new Zodiak("cancer","Positive vibes coming your way") },
+            {  new Zodiak("leo","An exciting opportunity awaits") },
+            {  new Zodiak("virgo","Things might get challenging") },
+            {  new Zodiak("libra","Balance will be key today") },
+            {  new Zodiak("scorpio","Trust your instincts") },
+            {  new Zodiak("sagittarius","Adventure is calling") },
+            {  new Zodiak("capricorn","Hard work will pay off") },
+            {  new Zodiak("aquarius","Unexpected changes ahead") },
+            {  new Zodiak("pisces","Creativity will flourish") }
         };
 
             int port = 9001;
@@ -68,11 +68,26 @@ namespace Server
                     int message_bytes_count = acceptor.Receive(message_buffer);
                     string userMessage = Encoding.UTF8.GetString(message_buffer, 0, message_bytes_count);
 
-                    string jsonString = JsonConvert.SerializeObject(zodiacForecastMap[userMessage]);
-                    WriteLine(jsonString);
+                    Zodiak foundZodiac = zodiacForecastMap.FirstOrDefault(z => z.sign.ToLower() == userMessage.ToLower());
+                    if (foundZodiac != null)
+                    {
+                        string jsonString = JsonConvert.SerializeObject(foundZodiac);
+                        WriteLine(DateTime.Now);
+                        WriteLine(jsonString);
+                        acceptor.Send(Encoding.UTF8.GetBytes(jsonString));
+                    }
+                    else
+                    {
+                        string jsonString = JsonConvert.SerializeObject(new{
+                            sign = userMessage,
+                            forecast = "we dont have that sign :(",
+                        });
+                        
+                        WriteLine(DateTime.Now);
+                        WriteLine(jsonString);
+                        acceptor.Send(Encoding.UTF8.GetBytes(jsonString));
+                    }
 
-
-                    acceptor.Send(Encoding.UTF8.GetBytes(jsonString));
 
 
                 }

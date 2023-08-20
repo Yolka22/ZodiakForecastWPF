@@ -30,8 +30,8 @@
                         Cursor="Hand"
                         />
             </StackPanel>
-        <StackPanel Orientation="Horizontal" Height="40px" >
-                <Label VerticalAlignment="Center" FontSize="20px">Your zodiak forecast : </Label>
+            <StackPanel Orientation="Horizontal" Height="40px" >
+                <Label VerticalAlignment="Center" FontSize="20px">Your zodiak forecast :</Label>
                 <Label
                 FontStyle="Italic"
                 FontSize="20"
@@ -40,7 +40,7 @@
                 x:Name="Forecast_label"
                 Width="auto"/>
             </StackPanel>
-            <Image x:Name="zodiak_sign"></Image>
         </StackPanel>
+        
     </Grid>
 </Window>

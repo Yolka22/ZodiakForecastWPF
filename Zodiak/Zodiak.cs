@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ZodiakNameSpace
 {
@@ -8,9 +12,8 @@ namespace ZodiakNameSpace
         public string forecast;
         public Zodiak(string sign, string forecast)
         {
-            this.sign = sign;
             this.forecast = forecast;
-
+            this.sign = sign;
         }
 
     }

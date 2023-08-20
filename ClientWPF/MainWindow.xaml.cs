@@ -11,6 +11,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -54,17 +55,19 @@ namespace ClientWPF
             string message = input_textBox.Text;
             byte[] message_buffer = Encoding.UTF8.GetBytes(message);
 
-            Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            client.Connect(endPoint);
-            client.Send(message_buffer);
+            using (Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP))
+            {
+                client.Connect(endPoint);
+                client.Send(message_buffer);
 
+                byte[] server_message_buffer = new byte[4096];
+                int server_message_bytes_count = client.Receive(server_message_buffer);
+                string received_json = Encoding.UTF8.GetString(server_message_buffer, 0, server_message_bytes_count);
+                Zodiak receivedZodiak = JsonConvert.DeserializeObject<Zodiak>(received_json);
 
-            byte[] server_message_buffer = new byte[4096];
-            int server_message_bytes_count = client.Receive(server_message_buffer);
-            string received_json = Encoding.UTF8.GetString(server_message_buffer, 0, server_message_bytes_count);
-            Zodiak receivedZodiak = JsonConvert.DeserializeObject<Zodiak>(received_json);
-
-            Forecast_label.Content = receivedZodiak.forecast;
+                Forecast_label.Content = receivedZodiak.forecast;
+                
+            }
         }
     }
 }
