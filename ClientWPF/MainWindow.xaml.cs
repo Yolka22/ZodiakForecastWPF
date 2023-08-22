@@ -9,23 +9,10 @@
 
 
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ZodiakNameSpace;
 
 namespace ClientWPF
@@ -60,13 +47,15 @@ namespace ClientWPF
                 client.Connect(endPoint);
                 client.Send(message_buffer);
 
-                byte[] server_message_buffer = new byte[4096];
+                byte[] server_message_buffer = new byte[256000];
                 int server_message_bytes_count = client.Receive(server_message_buffer);
                 string received_json = Encoding.UTF8.GetString(server_message_buffer, 0, server_message_bytes_count);
                 Zodiak receivedZodiak = JsonConvert.DeserializeObject<Zodiak>(received_json);
 
                 Forecast_label.Content = receivedZodiak.forecast;
-                
+                client_sign.Source = receivedZodiak.DecodeImage();
+
+
             }
         }
     }

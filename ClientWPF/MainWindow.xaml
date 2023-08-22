@@ -40,6 +40,7 @@
                 x:Name="Forecast_label"
                 Width="auto"/>
             </StackPanel>
+            <Image x:Name="client_sign" Height="80" Width="80"></Image>
         </StackPanel>
         
     </Grid>

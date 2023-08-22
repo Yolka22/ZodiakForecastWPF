@@ -29,18 +29,18 @@ namespace Server
 
             List<Zodiak> zodiacForecastMap = new List<Zodiak>
         {
-            {  new Zodiak("aries","Good fortune ahead") },
-            {  new Zodiak("taurus","Luck is on your side") },
-            {  new Zodiak("gemini","Stay cautious today") },
-            {  new Zodiak("cancer","Positive vibes coming your way") },
-            {  new Zodiak("leo","An exciting opportunity awaits") },
-            {  new Zodiak("virgo","Things might get challenging") },
-            {  new Zodiak("libra","Balance will be key today") },
-            {  new Zodiak("scorpio","Trust your instincts") },
-            {  new Zodiak("sagittarius","Adventure is calling") },
-            {  new Zodiak("capricorn","Hard work will pay off") },
-            {  new Zodiak("aquarius","Unexpected changes ahead") },
-            {  new Zodiak("pisces","Creativity will flourish") }
+            {  new Zodiak("aries","Good fortune ahead","aries.png") },
+            {  new Zodiak("taurus","Luck is on your side","taurus.png") },
+            {  new Zodiak("gemini","Stay cautious today", "gemini.png") },
+            {  new Zodiak("cancer","Positive vibes coming your way", "cancer.png") },
+            {  new Zodiak("leo","An exciting opportunity awaits", "leo.png") },
+            {  new Zodiak("virgo","Things might get challenging", "virgo.png") },
+            {  new Zodiak("libra","Balance will be key today", "libra.png") },
+            {  new Zodiak("scorpio","Trust your instincts", "scorpio.png") },
+            {  new Zodiak("sagittarius","Adventure is calling", "sagittarius.png") },
+            {  new Zodiak("capricorn","Hard work will pay off", "capricorn.png") },
+            {  new Zodiak("aquarius","Unexpected changes ahead", "aquarius.png") },
+            {  new Zodiak("pisces","Creativity will flourish", "pisces.png") }
         };
 
             int port = 9001;
@@ -64,7 +64,7 @@ namespace Server
 
                     Socket acceptor = listener.Accept();
 
-                    byte[] message_buffer = new byte[4096];
+                    byte[] message_buffer = new byte[256000];
                     int message_bytes_count = acceptor.Receive(message_buffer);
                     string userMessage = Encoding.UTF8.GetString(message_buffer, 0, message_bytes_count);
 
@@ -90,7 +90,7 @@ namespace Server
 
 
 
-                }
+                 }
             }
             catch (Exception ex)
             {
