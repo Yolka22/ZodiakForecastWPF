@@ -19,38 +19,21 @@ using System.Runtime.Remoting.Messaging;
 using Newtonsoft.Json;
 using ZodiakNameSpace;
 using System.Drawing;
+using System.Net.NetworkInformation;
+using System.Threading;
+
 namespace Server
 {
 
     internal class Program
     {
-        static void Main(string[] args)
+
+        static void ThreadMethod(IPEndPoint endPoint, List<Zodiak> zodiacForecastMap)
         {
-
-            List<Zodiak> zodiacForecastMap = new List<Zodiak>
-        {
-            {  new Zodiak("aries","Good fortune ahead","aries.png") },
-            {  new Zodiak("taurus","Luck is on your side","taurus.png") },
-            {  new Zodiak("gemini","Stay cautious today", "gemini.png") },
-            {  new Zodiak("cancer","Positive vibes coming your way", "cancer.png") },
-            {  new Zodiak("leo","An exciting opportunity awaits", "leo.png") },
-            {  new Zodiak("virgo","Things might get challenging", "virgo.png") },
-            {  new Zodiak("libra","Balance will be key today", "libra.png") },
-            {  new Zodiak("scorpio","Trust your instincts", "scorpio.png") },
-            {  new Zodiak("sagittarius","Adventure is calling", "sagittarius.png") },
-            {  new Zodiak("capricorn","Hard work will pay off", "capricorn.png") },
-            {  new Zodiak("aquarius","Unexpected changes ahead", "aquarius.png") },
-            {  new Zodiak("pisces","Creativity will flourish", "pisces.png") }
-        };
-
-            int port = 9001;
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            IPEndPoint endPoint = new IPEndPoint(ip, port);
-
             Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-
             try
             {
+                
                 listener.Bind(endPoint);
                 listener.Listen(100);
 
@@ -78,11 +61,12 @@ namespace Server
                     }
                     else
                     {
-                        string jsonString = JsonConvert.SerializeObject(new{
+                        string jsonString = JsonConvert.SerializeObject(new
+                        {
                             sign = userMessage,
                             forecast = "we dont have that sign :(",
                         });
-                        
+
                         WriteLine(DateTime.Now);
                         WriteLine(jsonString);
                         acceptor.Send(Encoding.UTF8.GetBytes(jsonString));
@@ -90,7 +74,7 @@ namespace Server
 
 
 
-                 }
+                }
             }
             catch (Exception ex)
             {
@@ -105,6 +89,36 @@ namespace Server
                 WriteLine("\n> Server Stopped");
                 ResetColor();
             }
+        }
+
+        static void Main(string[] args)
+        {
+
+            List<Zodiak> zodiacForecastMap = new List<Zodiak>
+        {
+            {  new Zodiak("aries","Good fortune ahead","aries.png") },
+            {  new Zodiak("taurus","Luck is on your side","taurus.png") },
+            {  new Zodiak("gemini","Stay cautious today", "gemini.png") },
+            {  new Zodiak("cancer","Positive vibes coming your way", "cancer.png") },
+            {  new Zodiak("leo","An exciting opportunity awaits", "leo.png") },
+            {  new Zodiak("virgo","Things might get challenging", "virgo.png") },
+            {  new Zodiak("libra","Balance will be key today", "libra.png") },
+            {  new Zodiak("scorpio","Trust your instincts", "scorpio.png") },
+            {  new Zodiak("sagittarius","Adventure is calling", "sagittarius.png") },
+            {  new Zodiak("capricorn","Hard work will pay off", "capricorn.png") },
+            {  new Zodiak("aquarius","Unexpected changes ahead", "aquarius.png") },
+            {  new Zodiak("pisces","Creativity will flourish", "pisces.png") }
+        };
+
+            int port = 9001;
+            IPAddress ip = IPAddress.Parse("127.0.0.1");
+            IPEndPoint endPoint = new IPEndPoint(ip, port);
+
+
+            Thread serverResponseThread = new Thread(() => ThreadMethod(endPoint, zodiacForecastMap));
+            serverResponseThread.Start();
+
+
         }
     }
 }
